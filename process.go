@@ -254,6 +254,15 @@ func (pm *processController) GetRank(limit int) []*Process {
 	return src
 }
 
+func (pm *processController) GetWithSec(pid string, sec int) *Process {
+	pm.RLock()
+	defer pm.RUnlock()
+
+	po := pm.dict[pid]
+	po.analyseStats(sec)
+	return po
+}
+
 func (pm *processController) Sort(sec int) []*Process {
 	pm.RLock()
 	defer pm.RUnlock()

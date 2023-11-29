@@ -1,5 +1,4 @@
-module github.com/rfyiamcool/go-netflow
-
+module github.com/gocnpan/go-netflow
 go 1.16
 
 require (

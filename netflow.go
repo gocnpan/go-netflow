@@ -224,6 +224,9 @@ type Interface interface {
 	// param limit, size of data returned.
 	// param recentSeconds, the average of the last few seconds' value.
 	GetProcessRank(limit int, recentSeconds int) ([]*Process, error)
+
+	// 指定进程
+	GetProcByPid(pid string, recentSeconds int) *Process
 }
 
 func New(opts ...optionFunc) (Interface, error) {
@@ -272,6 +275,10 @@ func (nf *Netflow) GetProcessRank(limit int, recentSeconds int) ([]*Process, err
 	nf.processHash.Sort(recentSeconds)
 	prank := nf.processHash.GetRank(limit)
 	return prank, nil
+}
+
+func (nf *Netflow) GetProcByPid(pid string, recentSeconds int) *Process {
+	return nf.processHash.GetWithSec(pid, recentSeconds)
 }
 
 func (nf *Netflow) incrCounter() {
